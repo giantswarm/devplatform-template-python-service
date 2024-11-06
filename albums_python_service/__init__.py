@@ -6,8 +6,10 @@ from prometheus_flask_exporter import PrometheusMetrics
 
 from albums_python_service.album import InMemoryStore, AlbumNotFound, Album
 
+import numpy as np
 
 def create_app(test_config=None):
+    a = np.array([1, 2, 3])
     # create and configure the app
     flask_app = Flask(__name__, instance_relative_config=True)
     metrics = PrometheusMetrics(flask_app, group_by='endpoint')
