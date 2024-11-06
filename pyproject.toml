@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "albums-python-service"
+version = "0.1.0"
+description = ""
+authors = ["Łukasz Piątkowski <piontec@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+flask = "^3.0.3"
+gunicorn = "^23.0.0"
+prometheus-flask-exporter = "^0.23.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
