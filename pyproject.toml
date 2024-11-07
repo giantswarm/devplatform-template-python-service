@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "albums-python-service"
-version = "dupapack"
+version = "0.1.0"
 description = ""
 authors = ["Łukasz Piątkowski <piontec@gmail.com>"]
 readme = "README.md"
