@@ -75,13 +75,6 @@
       "title": "fullnameOverride",
       "type": "string"
     },
-    "ginMode": {
-      "default": "debug",
-      "description": "Configure run mode of the gin web framework; can be 'debug' or 'production'",
-      "required": [],
-      "title": "ginMode",
-      "type": "string"
-    },
     "global": {
       "description": "Global values are values that can be accessed from any chart or subchart by exactly the same name.",
       "required": [],
@@ -134,7 +127,7 @@
       "type": "array"
     },
     "inMemoryStore": {
-      "default": false,
+      "default": true,
       "description": "When set to \"true\", the app doesn't use any database at all and stores all the\ndata in memory only.",
       "required": [],
       "title": "inMemoryStore",

@@ -24,13 +24,12 @@ Use the values below to configure the chart's values.
 | database.connectionSecretName | string | `""` | Secret that contains database connection details. It has to be present in the same namespace as the Chart is deployed to. Has to have `endpoint`, `username` and `password` keys. May contain `port` key. |
 | database.name | string | `"demo-album-catalog"` | Name of a logical database to use |
 | fullnameOverride | string | `""` | Override the default name generated for this specific chart Release. |
-| ginMode | string | `"debug"` | Configure run mode of the gin web framework; can be 'debug' or 'production' |
 | image.pullPolicy | string | `"IfNotPresent"` | Configure image pull policy. |
 | image.registry | string | `"ghcr.io"` | Set the domain of your container images registry. |
 | image.repository | string | `"giantswarm/demo-album-catalog"` | Set the name of the repository within the registry. |
 | image.tag | string | `""` | Image tag to use, defaults to .Chart.AppVersion |
 | imagePullSecrets | list | `[]` | Configure login secrets for the container images registry. |
-| inMemoryStore | bool | `false` | When set to "true", the app doesn't use any database at all and stores all the data in memory only. |
+| inMemoryStore | bool | `true` | When set to "true", the app doesn't use any database at all and stores all the data in memory only. |
 | ingress.annotations | object | `{}` | Optional annotations for the Ingress definition. If your cluster has "CertManager" operator running, you can use "cert-manager.io/cluster-issuer" annotation to [automatically generate a certificate for it](https://cert-manager.io/docs/usage/). |
 | ingress.className | string | `"nginx"` | Ingress controller implementations use this field to know whether they should be serving this Ingress resource, by a transitive connection. |
 | ingress.enabled | bool | `true` | Should the Service be accessible through an Ingress. This needs an Ingress controller to be configured already on your cluster. |

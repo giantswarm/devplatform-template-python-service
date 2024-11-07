@@ -5,11 +5,12 @@ from abc import ABC, abstractmethod
 class DataStore(Enum):
     Memory = 1
 
+
 class Album:
     ID: int
-    Title:  str
+    Title: str
     Artist: str
-    Price:  float
+    Price: float
 
     def __init__(self, aid: int, title: str, artist: str, price: float):
         self.ID = aid
@@ -20,26 +21,23 @@ class Album:
 
 class AlbumStore(ABC):
     @abstractmethod
-    def add(self, album: Album) -> int:
-        ...
+    def add(self, album: Album) -> int: ...
     @abstractmethod
-    def get(self, aid: int) -> Album:
-        ...
+    def get(self, aid: int) -> Album: ...
 
     @abstractmethod
-    def list(self) -> list[Album]:
-        ...
+    def list(self) -> list[Album]: ...
 
     @abstractmethod
-    def update(self, album: Album):
-        ...
+    def update(self, album: Album): ...
 
     @abstractmethod
-    def remove(self, aid: int):
-        ...
+    def remove(self, aid: int): ...
+
 
 class AlbumNotFound(Exception):
     pass
+
 
 class InMemoryStore(AlbumStore):
     def __init__(self):
