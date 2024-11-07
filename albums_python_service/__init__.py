@@ -5,6 +5,7 @@ from flask import Flask, render_template, redirect, url_for, request
 from prometheus_flask_exporter import PrometheusMetrics
 
 from albums_python_service.album import InMemoryStore, AlbumNotFound, Album
+from albums_python_service.version import version, commit, release_date
 
 
 def create_app(test_config=None):
@@ -13,6 +14,10 @@ def create_app(test_config=None):
     metrics = PrometheusMetrics(flask_app, group_by="endpoint")  # noqa: F841
 
     store = InMemoryStore()
+
+    @flask_app.context_processor
+    def inject_build_info():
+        return dict(version=version, commit=commit, date=release_date)
 
     @flask_app.route("/", methods=["GET"])
     def index():
