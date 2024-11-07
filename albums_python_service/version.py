@@ -19,6 +19,6 @@ def get_package_version() -> str:
 
 
 version = get_package_version()
-release_date = "unknown"
-commit = "unknown"
-builder = "unknown"
+release_date = "2024-11-07T15:54:32+01:00"
+commit = "78ea7b7baecee160f53495cf899670cd8391fa5e"
+builder = "pack"
