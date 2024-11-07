@@ -30,10 +30,8 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           env:
-            - name: LISTEN_PORT
-              value: "{{ .Values.podListenPort | default "8080" }}"
-            - name: GIN_MODE
-              value: "{{ .Values.ginMode | default "debug" }}"
+            - name: GUNICORN_CMD_ARGS
+              value: "--bind=0.0.0.0:{{ .Values.podListenPort | default 8080 }}"
             - name: DB_USERNAME
               valueFrom:
                 secretKeyRef:

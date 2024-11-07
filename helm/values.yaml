@@ -31,8 +31,6 @@ serviceAccount:
 podAnnotations: {}
 # -- Configure the TCP port on which your pods will listen for connections.
 podListenPort: 8080
-# -- Configure run mode of the gin web framework; can be 'debug' or 'production'
-ginMode: "debug"
 # -- Secret that contains database connection details. It has to be present in the
 # same namespace as the Chart is deployed to. Has to have `endpoint`, `username`
 # and `password` keys. May contain `port` key.
@@ -50,8 +48,7 @@ redisConnectionSecretName: ""
 
 # -- When set to "true", the app doesn't use any database at all and stores all the
 # data in memory only.
-inMemoryStore: false
-
+inMemoryStore: true
 # -- Configure [Pod resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/).
 resources:
   limits:
