@@ -80,15 +80,15 @@ jobs:
           --publish \
           --cache-image ghcr.io/giantswarm/pack-cache/demo-album-catalog-python
       - name: Attach SBOM to the image
-        run: oras attach ghcr.io/giantswarm/demo-album-catalog-pack:${CURRENT_TAG} sbom/launch/paketo-buildpacks_go-build/targets/sbom.spdx.json --artifact-type 'application/spdx+json'
+        run: oras attach ghcr.io/giantswarm/demo-album-catalog-python:${CURRENT_TAG} sbom/launch/paketo-buildpacks_go-build/targets/sbom.spdx.json --artifact-type 'application/spdx+json'
       - name: Check SBOM
         run: |
-          oras discover ghcr.io/giantswarm/demo-album-catalog-pack:${CURRENT_TAG} --format tree | tee /tmp/oras.log
-          oras discover ghcr.io/giantswarm/demo-album-catalog-pack:${CURRENT_TAG} --format json | tee /tmp/oras.json
+          oras discover ghcr.io/giantswarm/demo-album-catalog-python:${CURRENT_TAG} --format tree | tee /tmp/oras.log
+          oras discover ghcr.io/giantswarm/demo-album-catalog-python:${CURRENT_TAG} --format json | tee /tmp/oras.json
       - name: Sign docker image with cosign
         run: cosign sign --upload=true -y "$(head -n1 /tmp/oras.log)"
       - name: Sign SBOM with cosign
-        run: cosign sign --upload=true -y "ghcr.io/giantswarm/demo-album-catalog-pack@$(jq -r '.manifests[0].digest' /tmp/oras.json)"
+        run: cosign sign --upload=true -y "ghcr.io/giantswarm/demo-album-catalog-python@$(jq -r '.manifests[0].digest' /tmp/oras.json)"
       - name: Set helm chart versions
         run: |
           yq -i "(.version = env(CURRENT_TAG)) | (.appVersion = env(CURRENT_TAG))" helm/Chart.yaml
@@ -117,4 +117,4 @@ jobs:
             awk -F" " '/^Digest:/ {print $2}' /tmp/helm-push.log
           )" >> "$GITHUB_ENV"
       - name: Sign the helm chart
-        run: cosign sign --upload=true -y "ghcr.io/giantswarm/charts/demo-album-catalog-pack@${CHART_SHA256}"
+        run: cosign sign --upload=true -y "ghcr.io/giantswarm/charts/demo-album-catalog-python@${CHART_SHA256}"
