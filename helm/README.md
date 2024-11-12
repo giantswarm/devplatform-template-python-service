@@ -1,4 +1,4 @@
-# demo-album-catalog
+# demo-album-catalog-python
 
 Chart version 0.1.0, app version 0.1.0
 
