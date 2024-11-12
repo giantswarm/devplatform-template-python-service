@@ -1,0 +1,1 @@
+web: gunicorn -w 1 --access-log - 'python_service:app'

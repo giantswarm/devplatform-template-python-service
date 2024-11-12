@@ -1,16 +1,15 @@
 [_]
 schema-version = "0.2"
-id = "giantswarm.devplatform.go-service.{{ .ProjectName }}"
-name = "go service built with CNBP pack"
-version = "0.1.0"
+id = "giantswarm.devplatform.python-service.{{ .ProjectName }}"
+name = "python service built with CNBP pack"
 
 [io.buildpacks]
-builder = "paketobuildpacks/builder-jammy-tiny"
+builder = "paketobuildpacks/builder-jammy-base"
 
 [[io.buildpacks.build.env]]
 name = "BP_IMAGE_LABELS"
 value = 'org.opencontainers.image.source=https://github.com/{{ .RepoOwner }}/{{ .ProjectName }}'
 
 [[io.buildpacks.build.env]]
-name = "BP_KEEP_FILES"
-value = "templates/*:templates/"
+name = "BP_CPYTHON_VERSION"
+value = "3.12.*"

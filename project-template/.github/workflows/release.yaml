@@ -35,6 +35,7 @@ jobs:
         run: |
           export NEXT_TAG=$(pysemver nextver $(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0") patch)
           echo "CURRENT_TAG=${NEXT_TAG}-$(git describe --tags | awk -F '-' '{print "dev."$2"."$3}')" >> $GITHUB_ENV
+          echo "CURRENT_PY_TAG=${NEXT_TAG}-$(git describe --tags | awk -F '-' '{print "dev."$2}')" >> $GITHUB_ENV
       - name: Generate tag - print the tag
         run: |
           echo "CURRENT_TAG=$CURRENT_TAG"
@@ -64,6 +65,12 @@ jobs:
           password: {{`${{ secrets.GITHUB_TOKEN }}`}}
       - name: Login helm to OCI registry
         run: helm registry login {{ .RegistryDomain }} -u build_bot -p "{{`${{ secrets.GITHUB_TOKEN }}`}}"
+      - name: Set build info
+        run: |
+          sed -i 's/builder = ".*"/builder = "pack"/' *python_service/version.py
+          export COMMIT=$(git rev-parse @); sed -i 's/commit = ".*"/commit = "'"$COMMIT"'"/' *python_service/version.py
+          export DATE=$(date --iso-8601=seconds); sed -i 's/release_date = ".*"/release_date = "'"$DATE"'"/' *python_service/version.py
+          sed -i '3s/version = ".*"/version = "'"$CURRENT_PY_TAG"'"/' pyproject.toml
       - name: Run build with pack
         run: |
           pack build {{ lower .RegistryDomain }}/{{ lower .RegistryName }}/{{ lower .ImageName }}:${CURRENT_TAG} \
@@ -71,10 +78,11 @@ jobs:
           --trust-builder \
           --sbom-output-dir sbom/ \
           --publish \
-          --cache-image {{ lower .RegistryDomain }}/{{ lower .RegistryName }}/pack-cache/{{ lower .ImageName }} \
-          --env BP_GO_BUILD_LDFLAGS="-X main.builtBy=pack -X main.version=${CURRENT_TAG} -X main.commit=$(git rev-parse @) -X main.date=$(date --iso-8601=seconds)"
+          --cache-image {{ lower .RegistryDomain }}/{{ lower .RegistryName }}/pack-cache/{{ lower .ImageName }}
+      - name: List SBOMs
+        run: ls -laR sbom/
       - name: Attach SBOM to the image
-        run: oras attach {{ lower .RegistryDomain }}/{{ lower .RegistryName }}/{{ lower .ImageName }}:${CURRENT_TAG} sbom/launch/paketo-buildpacks_go-build/targets/sbom.spdx.json --artifact-type 'application/spdx+json'
+        run: oras attach {{ lower .RegistryDomain }}/{{ lower .RegistryName }}/{{ lower .ImageName }}:${CURRENT_TAG} sbom/launch/paketo-buildpacks_poetry-install/poetry-venv/sbom.spdx.json --artifact-type 'application/spdx+json'
       - name: Check SBOM
         run: |
           oras discover {{ lower .RegistryDomain }}/{{ lower .RegistryName }}/{{ lower .ImageName }}:${CURRENT_TAG} --format tree | tee /tmp/oras.log

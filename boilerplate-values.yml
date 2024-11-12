@@ -1,6 +1,6 @@
-ProjectName: demo-album-catalog-pack
+ProjectName: demo-album-catalog-python
 RepoOwner: giantswarm
-ImageName: demo-album-catalog-pack
+ImageName: demo-album-catalog-python
 RegistryDomain: ghcr.io
 RegistryName: giantswarm
 BackstageEntityOwner: giantswarm

@@ -1,5 +1,6 @@
 dist/
 build/
+**/__pycache__/
 
 # macos
 .DS_Store
