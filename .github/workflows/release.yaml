@@ -79,8 +79,10 @@ jobs:
           --sbom-output-dir sbom/ \
           --publish \
           --cache-image ghcr.io/giantswarm/pack-cache/demo-album-catalog-python
+      - name: List SBOMs
+        run: ls -laR sbom/
       - name: Attach SBOM to the image
-        run: oras attach ghcr.io/giantswarm/demo-album-catalog-python:${CURRENT_TAG} sbom/launch/paketo-buildpacks_go-build/targets/sbom.spdx.json --artifact-type 'application/spdx+json'
+        run: oras attach ghcr.io/giantswarm/demo-album-catalog-python:${CURRENT_TAG} sbom/launch/paketo-buildpacks_python-build/targets/sbom.spdx.json --artifact-type 'application/spdx+json'
       - name: Check SBOM
         run: |
           oras discover ghcr.io/giantswarm/demo-album-catalog-python:${CURRENT_TAG} --format tree | tee /tmp/oras.log
