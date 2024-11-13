@@ -46,13 +46,14 @@ jobs:
           key: ${{ runner.os }}-pipx-pre-commit-${{ env.PRE_COMMIT_VERSION }}
       - name: Install pre-commit hooks
         run: pre-commit install
+      - run: la -la ~/.cache/pre-commit
       - name: Cache pre-commit hooks
         uses: actions/cache@v4
         env:
           cache-name: pre-commit-hooks
         with:
           path: ~/.cache/pre-commit
-          key: ${{ runner.os }}-pre-commit-hooks-${{ hashFiles(.pre-commit-config.yaml) }}
+          key: ${{ runner.os }}-pre-commit-hooks-${{ hashFiles('.pre-commit-config.yaml') }}
       - name: Run pre-commit
         continue-on-error: true
         run: pre-commit --show-diff-on-failure --color=always --all-files
