@@ -31,7 +31,7 @@ jobs:
           key: {{`${{ runner.os }}-pipx-pre-commit-${{ env.PRE_COMMIT_VERSION }}`}}
       - if: {{`${{ steps.cache-pre-commit-install.outputs.cache-hit != 'true' }}`}}
         name: Install pre-commit
-        run: pipx install pre-commit==${{ env.PRE_COMMIT_VERSION }}
+        run: {{`pipx install pre-commit==${{ env.PRE_COMMIT_VERSION }}`}}
       - name: Cache pre-commit hooks
         id: cache-pre-commit-hooks
         uses: actions/cache@v4
