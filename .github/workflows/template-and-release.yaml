@@ -56,27 +56,27 @@ jobs:
           key: ${{ runner.os }}-pre-commit-${{ env.PRE_COMMIT_VERSION }}-hooks-${{ hashFiles('.pre-commit-config.yaml') }}
       - name: Run pre-commit
         continue-on-error: true
-        run: pre-commit --show-diff-on-failure --color=always --all-files
-      - name: Commit rendered project
-        id: cpr
-        uses: peter-evans/create-pull-request@v7
-        with:
-          branch: "rendered-project-${{ github.head_ref }}"
-          delete-branch: true
-          token: ${{ secrets.WORKFLOW_PAT }}
-      - name: Create comment when no change
-        if: ${{ !steps.cpr.outputs.pull-request-number }}
-        uses: peter-evans/create-or-update-comment@v4
-        with:
-          issue-number: ${{ github.event.number }}
-          body: |
-            Your current PR doesn't make any change in the rendered project. No PR was created.
-      - name: Create comment when change
-        if: ${{ steps.cpr.outputs.pull-request-number }}
-        uses: peter-evans/create-or-update-comment@v4
-        with:
-          issue-number: ${{ github.event.number }}
-          body: |
-            A Pull Request was created to preview the result of this PR.
-            Make sure you review and accept the created PR before you merge this one!
-            Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}
+        run: pre-commit run --show-diff-on-failure --color=always --all-files
+      #- name: Commit rendered project
+      #  id: cpr
+      #  uses: peter-evans/create-pull-request@v7
+      #  with:
+      #    branch: "rendered-project-${{ github.head_ref }}"
+      #    delete-branch: true
+      #    token: ${{ secrets.WORKFLOW_PAT }}
+      #- name: Create comment when no change
+      #  if: ${{ !steps.cpr.outputs.pull-request-number }}
+      #  uses: peter-evans/create-or-update-comment@v4
+      #  with:
+      #    issue-number: ${{ github.event.number }}
+      #    body: |
+      #      Your current PR doesn't make any change in the rendered project. No PR was created.
+      #- name: Create comment when change
+      #  if: ${{ steps.cpr.outputs.pull-request-number }}
+      #  uses: peter-evans/create-or-update-comment@v4
+      #  with:
+      #    issue-number: ${{ github.event.number }}
+      #    body: |
+      #      A Pull Request was created to preview the result of this PR.
+      #      Make sure you review and accept the created PR before you merge this one!
+      #      Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}
