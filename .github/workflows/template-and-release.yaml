@@ -40,16 +40,16 @@ jobs:
         run: sed -i 's/org\.opencontainers\.image\.source=https:\/\/github\.com\/giantswarm\/devplatform-template-python-service/org\.opencontainers\.image\.source=https:\/\/github\.com\/giantswarm\/devplatform-template-python-service/' project.toml
       - name: Install pipx
         run: sudo apt-get install -y --no-install-recommends pipx
-      - name: Cache pre-commit installation
-        id: cache-pre-commit-install
-        uses: actions/cache@v4
-        env:
-          cache-name: pipx-pre-commit
-        with:
-          path: /opt/pipx/
-          key: ${{ runner.os }}-pipx-pre-commit-${{ env.PRE_COMMIT_VERSION }}
-      - if: ${{ steps.cache-pre-commit-install.outputs.cache-hit != 'true' }}
-        name: Install pre-commit
+      #- name: Cache pre-commit installation
+      #  id: cache-pre-commit-install
+      #  uses: actions/cache@v4
+      #  env:
+      #    cache-name: pipx-pre-commit
+      #  with:
+      #    path: /opt/pipx/
+      #    key: ${{ runner.os }}-pipx-pre-commit-${{ env.PRE_COMMIT_VERSION }}
+      # - if: ${{ steps.cache-pre-commit-install.outputs.cache-hit != 'true' }}
+      - name: Install pre-commit
         run: pipx install pre-commit==${{ env.PRE_COMMIT_VERSION }}
       - name: Cache pre-commit hooks
         id: cache-pre-commit-hooks
