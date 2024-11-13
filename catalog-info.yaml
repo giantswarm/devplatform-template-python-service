@@ -1,16 +1,16 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: demo-album-catalog
-  description: A Golang service responding to HTTP requests.
+  name: demo-album-catalog-python
+  description: A Python service responding to HTTP requests.
   annotations:
-    backstage.io/kubernetes-id: demo-album-catalog
-    backstage.io/source-location: url:https://github.com/giantswarm/demo-album-catalog
-    backstage.io/techdocs-ref: url:https://github.com/giantswarm/demo-album-catalog/tree/main
-    giantswarm.io/deployment-names: demo-album-catalog,demo-album-catalog-app
-    giantswarm.io/ingress-host: "demo-album-catalog.demotech-rds.awsprod.gigantic.io"
-    giantswarm.io/grafana-dashboard: "/d/cdyhcdr5hge0wa/demotech-web-application-vitals"
-    github.com/project-slug: giantswarm/demo-album-catalog
+    backstage.io/kubernetes-id: demo-album-catalog-python
+    backstage.io/source-location: url:https://github.com/giantswarm/demo-album-catalog-python
+    backstage.io/techdocs-ref: url:https://github.com/giantswarm/demo-album-catalog-python/tree/main
+    giantswarm.io/deployment-names: demo-album-catalog-python,demo-album-catalog-python-app
+    giantswarm.io/ingress-host: "demo-album-catalog-python.demotech-rds.awsprod.gigantic.io"
+    giantswarm.io/grafana-dashboard: "/d/cdyhcdr5hge0wa/demotech-python-web-application-vitals"
+    github.com/project-slug: giantswarm/demo-album-catalog-python
 spec:
   type: service
   lifecycle: experimental

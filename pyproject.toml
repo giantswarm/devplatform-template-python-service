@@ -1,8 +1,8 @@
 [tool.poetry]
-name = "albums-python-service"
-version = "0.1.0-dev.1"
+name = "demo-album-catalog-python"
+version = "0.0.0-dev"
 description = ""
-authors = ["Łukasz Piątkowski <piontec@gmail.com>"]
+authors = ["giantswarm"]
 readme = "README.md"
 
 [tool.poetry.dependencies]

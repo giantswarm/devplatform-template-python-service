@@ -67,9 +67,9 @@ jobs:
         run: helm registry login ghcr.io -u build_bot -p "${{ secrets.GITHUB_TOKEN }}"
       - name: Set build info
         run: |
-          sed -i 's/builder = ".*"/builder = "pack"/' albums_python_service/version.py
-          export COMMIT=$(git rev-parse @); sed -i 's/commit = ".*"/commit = "'"$COMMIT"'"/' albums_python_service/version.py
-          export DATE=$(date --iso-8601=seconds); sed -i 's/release_date = ".*"/release_date = "'"$DATE"'"/' albums_python_service/version.py
+          sed -i 's/builder = ".*"/builder = "pack"/' *python_service/version.py
+          export COMMIT=$(git rev-parse @); sed -i 's/commit = ".*"/commit = "'"$COMMIT"'"/' *python_service/version.py
+          export DATE=$(date --iso-8601=seconds); sed -i 's/release_date = ".*"/release_date = "'"$DATE"'"/' *python_service/version.py
           sed -i '3s/version = ".*"/version = "'"$CURRENT_PY_TAG"'"/' pyproject.toml
       - name: Run build with pack
         run: |
@@ -82,7 +82,7 @@ jobs:
       - name: List SBOMs
         run: ls -laR sbom/
       - name: Attach SBOM to the image
-        run: oras attach ghcr.io/giantswarm/demo-album-catalog-python:${CURRENT_TAG} sbom/launch/paketo-buildpacks_poetry-install/poetry-venv --artifact-type 'application/spdx+json'
+        run: oras attach ghcr.io/giantswarm/demo-album-catalog-python:${CURRENT_TAG} sbom/launch/paketo-buildpacks_poetry-install/poetry-venv/sbom.spdx.json --artifact-type 'application/spdx+json'
       - name: Check SBOM
         run: |
           oras discover ghcr.io/giantswarm/demo-album-catalog-python:${CURRENT_TAG} --format tree | tee /tmp/oras.log

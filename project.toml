@@ -1,6 +1,6 @@
 [_]
 schema-version = "0.2"
-id = "giantswarm.devplatform.python-service.demo-album-catalog"
+id = "giantswarm.devplatform.python-service.demo-album-catalog-python"
 name = "python service built with CNBP pack"
 
 [io.buildpacks]
@@ -8,7 +8,7 @@ builder = "paketobuildpacks/builder-jammy-base"
 
 [[io.buildpacks.build.env]]
 name = "BP_IMAGE_LABELS"
-value = 'org.opencontainers.image.source=https://github.com/giantswarm/demo-album-catalog-pack'
+value = 'org.opencontainers.image.source=https://github.com/giantswarm/demo-album-catalog-python'
 
 [[io.buildpacks.build.env]]
 name = "BP_CPYTHON_VERSION"

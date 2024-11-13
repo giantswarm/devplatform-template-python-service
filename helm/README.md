@@ -4,7 +4,7 @@ Chart version 0.1.0, app version 0.1.0
 
 A Helm chart to deploy the sample golang based web service project.
 
-**Homepage:** <https://github.com/giantswarm/demo-album-catalog/>
+**Homepage:** <https://github.com/giantswarm/demo-album-catalog-python/>
 
 ## Requirements
 
@@ -20,13 +20,13 @@ Use the values below to configure the chart's values.
 | autoscaling.minReplicas | int | `3` | Min number of Pods autoscaler can deploy. |
 | autoscaling.targetCPUUtilizationPercentage | int | `80` | Pod scale up critieria based on CPU usage. |
 | autoscaling.targetMemoryUtilizationPercentage | int | `80` | Pod scale up critieria based on Memory usage. |
-| database | object | `{"connectionSecretName":"","name":"demo-album-catalog"}` | Secret that contains database connection details. It has to be present in the same namespace as the Chart is deployed to. Has to have `endpoint`, `username` and `password` keys. May contain `port` key. |
+| database | object | `{"connectionSecretName":"","name":"demo-album-catalog-python"}` | Secret that contains database connection details. It has to be present in the same namespace as the Chart is deployed to. Has to have `endpoint`, `username` and `password` keys. May contain `port` key. |
 | database.connectionSecretName | string | `""` | Secret that contains database connection details. It has to be present in the same namespace as the Chart is deployed to. Has to have `endpoint`, `username` and `password` keys. May contain `port` key. |
-| database.name | string | `"demo-album-catalog"` | Name of a logical database to use |
+| database.name | string | `"demo-album-catalog-python"` | Name of a logical database to use |
 | fullnameOverride | string | `""` | Override the default name generated for this specific chart Release. |
 | image.pullPolicy | string | `"IfNotPresent"` | Configure image pull policy. |
 | image.registry | string | `"ghcr.io"` | Set the domain of your container images registry. |
-| image.repository | string | `"giantswarm/demo-album-catalog"` | Set the name of the repository within the registry. |
+| image.repository | string | `"giantswarm/demo-album-catalog-python"` | Set the name of the repository within the registry. |
 | image.tag | string | `""` | Image tag to use, defaults to .Chart.AppVersion |
 | imagePullSecrets | list | `[]` | Configure login secrets for the container images registry. |
 | inMemoryStore | bool | `true` | When set to "true", the app doesn't use any database at all and stores all the data in memory only. |

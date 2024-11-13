@@ -1,1 +1,1 @@
-web: gunicorn -w 1 --access-log - 'albums_python_service:app'
+web: gunicorn -w 1 --access-logfile - 'python_service:app'
