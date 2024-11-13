@@ -18,6 +18,11 @@ jobs:
       pull-requests: write
       actions: write
     steps:
+      - uses: actions/create-github-app-token@v1
+        id: generate-token
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
       - name: Install boilerplate
         run: curl -fsSL https://github.com/gruntwork-io/boilerplate/releases/latest/download/boilerplate_linux_amd64 -o /usr/local/bin/boilerplate && chmod +x /usr/local/bin/boilerplate
@@ -62,26 +67,26 @@ jobs:
         run: |
           pipx ensurepath
           pre-commit run --show-diff-on-failure --color=always --all-files
-      #- name: Commit rendered project
-      #  id: cpr
-      #  uses: peter-evans/create-pull-request@v7
-      #  with:
-      #    branch: "rendered-project-${{ github.head_ref }}"
-      #    delete-branch: true
-      #    token: ${{ secrets.WORKFLOW_PAT }}
-      #- name: Create comment when no change
-      #  if: ${{ !steps.cpr.outputs.pull-request-number }}
-      #  uses: peter-evans/create-or-update-comment@v4
-      #  with:
-      #    issue-number: ${{ github.event.number }}
-      #    body: |
-      #      Your current PR doesn't make any change in the rendered project. No PR was created.
-      #- name: Create comment when change
-      #  if: ${{ steps.cpr.outputs.pull-request-number }}
-      #  uses: peter-evans/create-or-update-comment@v4
-      #  with:
-      #    issue-number: ${{ github.event.number }}
-      #    body: |
-      #      A Pull Request was created to preview the result of this PR.
-      #      Make sure you review and accept the created PR before you merge this one!
-      #      Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}
+      - name: Commit rendered project
+        id: cpr
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: "rendered-project-${{ github.head_ref }}"
+          delete-branch: true
+          token: ${{ steps.generate-token.outputs.token }}
+      - name: Create comment when no change
+        if: ${{ !steps.cpr.outputs.pull-request-number }}
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.number }}
+          body: |
+            Your current PR doesn't make any change in the rendered project. No PR was created.
+      - name: Create comment when change
+        if: ${{ steps.cpr.outputs.pull-request-number }}
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.number }}
+          body: |
+            A Pull Request was created to preview the result of this PR.
+            Make sure you review and accept the created PR before you merge this one!
+            Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}
