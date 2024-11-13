@@ -37,13 +37,13 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y --no-install-recommends pipx
       - name: Install pre-commit
         run: pipx install pre-commit==${{ env.PRE_COMMIT_VERSION }}
-      - run: ls -la ~/.local/share/pipx/venvs
+      - run: ls -la /opt/pipx/venvs
       - name: Cache pre-commit installation
         uses: actions/cache@v4
         env:
           cache-name: cache-node-modules
         with:
-          path: ~/.npm
+          path: /opt/pipx/venvs
           key: ${{ runner.os }}-pipx-pre-commit-${{ env.PRE_COMMIT_VERSION }}
       - name: Run pre-commit
         continue-on-error: true
