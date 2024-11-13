@@ -41,7 +41,7 @@ jobs:
         env:
           cache-name: pipx-pre-commit
         with:
-          path: /opt/pipx/venvs/pre-commit
+          path: /opt/pipx/
           key: ${{ runner.os }}-pipx-pre-commit-${{ env.PRE_COMMIT_VERSION }}
       - if: ${{ steps.cache-pre-commit-install.outputs.cache-hit != 'true' }}
         name: Install pre-commit
