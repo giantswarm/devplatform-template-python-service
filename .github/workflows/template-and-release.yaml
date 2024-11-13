@@ -34,12 +34,12 @@ jobs:
       - name: Replace source repo info
         run: sed -i 's/org\.opencontainers\.image\.source=https:\/\/github\.com\/giantswarm\/devplatform-template-python-service/org\.opencontainers\.image\.source=https:\/\/github\.com\/giantswarm\/devplatform-template-python-service/' project.toml
       - name: Install pipx
-        run: sudo apt-get update && apt-get install -y --no-install-recommends pipx
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends pipx
       - name: Install pre-commit
         run: pipx install pre-commit==${{ env.PRE_COMMIT_VERSION }}
       - run: ls -la ~/.local/share/pipx/venvs
       - name: Cache pre-commit installation
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         env:
           cache-name: cache-node-modules
         with:
