@@ -57,7 +57,7 @@
           "type": "string"
         },
         "name": {
-          "default": "demo-album-catalog",
+          "default": "demo-album-catalog-python",
           "description": "Name of a logical database to use",
           "required": [],
           "title": "name",
@@ -99,7 +99,7 @@
           "type": "string"
         },
         "repository": {
-          "default": "giantswarm/demo-album-catalog",
+          "default": "giantswarm/demo-album-catalog-python",
           "description": "Set the name of the repository within the registry.",
           "required": [],
           "title": "repository",

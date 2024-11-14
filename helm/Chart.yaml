@@ -3,7 +3,7 @@ name: demo-album-catalog-python
 description: A Helm chart to deploy the sample golang based web service project.
 type: application
 kubeVersion: ">=1.25.0"
-home: https://github.com/giantswarm/demo-album-catalog/
+home: https://github.com/giantswarm/demo-album-catalog-python/
 maintainers:
   - name: giantswarm
     email: noemail@nothing.com
