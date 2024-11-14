@@ -43,8 +43,6 @@ skip_files:
   - path: helm/templates/**/**
   - path: python_service/templates
   - path: python_service/templates/**/**
-  - path: python_service/__pycache__
-  - path: python_service/__pycache__/**
 hooks:
   after:
     - command: cp
