@@ -1,6 +1,6 @@
 # Python web service template repository
 
-![validation and test result](https://github.com/giantswarm/devplatform-template-python-service/actions/workflows/validate-test.yaml/badge.svg?event=push)
+![validation and test result](https://github.com/giantswarm/devplatform-template-python-service/actions/workflows/template-and-release.yaml/badge.svg?event=push)
 
 ## Intro
 
