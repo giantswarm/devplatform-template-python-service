@@ -4,8 +4,8 @@ from http import HTTPStatus
 from flask import Flask, render_template, redirect, url_for, request
 from prometheus_flask_exporter import PrometheusMetrics
 
-from albums_python_service.album import InMemoryStore, AlbumNotFound, Album
-from albums_python_service.version import version, commit, release_date
+from python_service.album import InMemoryStore, AlbumNotFound, Album
+from python_service.version import version, commit, release_date
 
 
 def create_app(test_config=None):
