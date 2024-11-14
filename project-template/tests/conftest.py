@@ -1,6 +1,6 @@
 import pytest
 
-from albums_python_service import create_app
+from python_service import create_app
 
 
 @pytest.fixture()
