@@ -30,6 +30,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         run: |
           echo "CURRENT_TAG=$GITHUB_REF_NAME" >> $GITHUB_ENV
+          echo "CURRENT_PY_TAG=$GITHUB_REF_NAME" >> $GITHUB_ENV
       - name: Snapshot build - generate tag
         if: ${{ !startsWith(github.ref, 'refs/tags/') }}
         run: |
@@ -39,6 +40,7 @@ jobs:
       - name: Generate tag - print the tag
         run: |
           echo "CURRENT_TAG=$CURRENT_TAG"
+          echo "CURRENT_PY_TAG=$CURRENT_PY_TAG"
       - name: Setup pack
         uses: buildpacks/github-actions/setup-pack@v5.0.0
       - name: Setup Cosign
