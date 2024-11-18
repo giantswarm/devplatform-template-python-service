@@ -6,9 +6,30 @@ name = "python service built with CNBP pack"
 [io.buildpacks]
 builder = "paketobuildpacks/builder-jammy-base"
 
+[[io.buildpacks.group]]
+uri = "dmikusa/apt@0.0.2"
+
+[[io.buildpacks.group]]
+uri = "docker://gcr.io/paketo-buildpacks/python:2.22.2"
+
+[[io.buildpacks.group]]
+uri = "docker://gcr.io/paketo-buildpacks/procfile:5.10.1"
+
 [[io.buildpacks.build.env]]
 name = "BP_IMAGE_LABELS"
 value = 'org.opencontainers.image.source=https://github.com/giantswarm/demo-album-catalog-python'
+
+[[order]]
+[[order.group]]
+id = "dmikusa/apt"
+
+[[order]]
+[[order.group]]
+id = "docker://gcr.io/paketo-buildpacks/python:2.22.2"
+
+[[order]]
+[[order.group]]
+id = "docker://gcr.io/paketo-buildpacks/procfile:5.10.1"
 
 [[io.buildpacks.build.env]]
 name = "BP_CPYTHON_VERSION"
