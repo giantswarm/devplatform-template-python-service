@@ -19,9 +19,20 @@ uri = "docker://gcr.io/paketo-buildpacks/procfile:5.10.1"
 name = "BP_IMAGE_LABELS"
 value = 'org.opencontainers.image.source=https://github.com/giantswarm/demo-album-catalog-python'
 
+[[io.buildpacks.group]]
+id = "me/test"
+
+[io.buildpacks.group.script]
+api = "0.10"
+inline = "pkg-config mysqlclient --cflags"
+
 [[order]]
 [[order.group]]
 id = "dmikusa/apt"
+
+[[order]]
+[[order.group]]
+id = "me/test"
 
 [[order]]
 [[order.group]]
