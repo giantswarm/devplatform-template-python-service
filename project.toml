@@ -4,7 +4,8 @@ id = "giantswarm.devplatform.python-service.demo-album-catalog-python"
 name = "python service built with CNBP pack"
 
 [io.buildpacks]
-builder = "paketobuildpacks/builder-jammy-base"
+builder = "python-mysql-jammy:0.0.1"
+# builder = "paketobuildpacks/builder-jammy-base"
 
 [[io.buildpacks.build.env]]
 name = "BP_IMAGE_LABELS"
