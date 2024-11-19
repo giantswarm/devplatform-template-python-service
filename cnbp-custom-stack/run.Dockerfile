@@ -1,3 +1,6 @@
+# WARNING: This shows how a CNBP compatible image can be built. In real life,
+# you should just extend the existing paketo.io image to take advantage of their
+# security policy!
 FROM ubuntu:jammy
 
 LABEL io.buildpacks.stack.id="io.buildpacks.stacks.jammy"

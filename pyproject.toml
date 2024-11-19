@@ -11,6 +11,7 @@ flask = "^3.0.3"
 gunicorn = "^23.0.0"
 prometheus-flask-exporter = "^0.23.1"
 toml = "^0.10.2"
+mysqlclient = "^2.2.6"
 
 
 [tool.poetry.group.dev.dependencies]
