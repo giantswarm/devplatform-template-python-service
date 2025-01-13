@@ -78,6 +78,5 @@ jobs:
         with:
           issue-number: ${{ github.event.number }}
           body: |
-            A Pull Request was created to preview the result of this PR.
-            Make sure you review and accept the created PR before you merge this one!
-            Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}
+            Pull request ${{ steps.cpr.outputs.pull-request-url }} was created to preview the result of this PR.
+            Make sure you review and accept the created PR before you merge this one here.
