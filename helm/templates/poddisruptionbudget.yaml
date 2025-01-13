@@ -7,6 +7,7 @@ metadata:
     {{- include "project.labels" . | nindent 4 }}
 spec:
   minAvailable: 2
+  unhealthyPodEvictionPolicy: IfHealthyBudget
   selector:
     matchLabels:
       {{- include "project.selectorLabels" . | nindent 6 }}
