@@ -5,6 +5,7 @@ on:
     types: [opened, synchronize, reopened, closed]
   issue_comment:
     types: [created]
+  workflow_dispatch: {}
 
 jobs:
   block-pr:
