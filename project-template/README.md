@@ -12,6 +12,7 @@ the CI.
 ## Features included
 
 - automatically build a container image and a Helm chart
+  - use Cloud Native Buildpacks to build the container image
 - upload build artifacts to GitHub: create a release for the binaries, upload the container image and the Helm chart
   to GitHub's OCI registry
 - included security: vulnerability scans for go sources, generation of SBoM, singing artifacts with `cosign`
