@@ -3,8 +3,6 @@ name: Trigger Root PR status check
 on:
   pull_request:
     types: [closed]
-  issue_comment:
-    types: [created]
 
 jobs:
   trigger-root-pr:

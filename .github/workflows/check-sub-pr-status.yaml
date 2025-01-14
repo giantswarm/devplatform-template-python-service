@@ -21,7 +21,8 @@ jobs:
               ? context.payload.pull_request.number
               : context.payload.issue.number;
 
-            const commentPattern = /Pull request https:\/\/github\.com\/.*\/pull\/(\d+) was created to preview the result of this PR./;
+            const commentPattern = /Pull request https:\/\/github\.com\/.*\/pull\/(\d+) was created to preview the result of this PR\./;
+            const noChangeCommentPattern = /Your current PR doesn\'t make any change in the rendered project\. No PR was created\./;
 
             const comments = await github.rest.issues.listComments({
               owner: context.repo.owner,
@@ -29,9 +30,15 @@ jobs:
               issue_number: mainPrNumber,
             });
 
+
+            const noChangeComment = comments.data.find(comment => noChangeCommentPattern.test(comment.body));
+            if (noChangeComment) {
+              console.log("No sub-PR is created for this PR, skipping the check");
+              return;
+            }
             const subPrComment = comments.data.find(comment => commentPattern.test(comment.body));
             if (!subPrComment) {
-              console.log('No sub-PR comment found.');
+              console.log('No sub-PR comment found yet.');
               throw new Error(`Sub-PR comment not found in the current PR.`);
             }
 
