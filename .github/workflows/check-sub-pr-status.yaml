@@ -30,7 +30,9 @@ jobs:
         shell: bash
 
       - name: Create Check Run
-        if: github.event_name == 'issue_comment'
+        if: >-
+          github.event_name != 'issue_comment' || 
+          (github.event_name == 'issue_comment' && github.event.comment.body == '/check-sub-pr')
         id: create_check
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
         with:
@@ -52,6 +54,9 @@ jobs:
             return { check_run_id: check.id };
 
       - name: Check for Sub-PR Status
+        if: >-
+          github.event_name != 'issue_comment' || 
+          (github.event_name == 'issue_comment' && github.event.comment.body == '/check-sub-pr')
         id: check_sub_pr
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
         with:
@@ -104,7 +109,10 @@ jobs:
             }
 
       - name: Update Check Run Status
-        if: github.event_name == 'issue_comment' && steps.create_check.outputs.result != ''
+        if: >-
+          (github.event_name != 'issue_comment' || 
+          (github.event_name == 'issue_comment' && github.event.comment.body == '/check-sub-pr')) && 
+          steps.create_check.outputs.result != ''
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
         with:
           script: |
@@ -144,8 +152,8 @@ jobs:
               completed_at: new Date().toISOString()
             });
 
-      - name: Fail if Sub-PR is not merged
-        if: steps.check_sub_pr.outputs.result == 'not_merged'
-        run: |
-          echo "The sub-PR is not merged. Blocking the main PR."
-          exit 1
+#      - name: Fail if Sub-PR is not merged
+#        if: steps.check_sub_pr.outputs.result == 'not_merged'
+#        run: |
+#          echo "The sub-PR is not merged. Blocking the main PR."
+#          exit 1
