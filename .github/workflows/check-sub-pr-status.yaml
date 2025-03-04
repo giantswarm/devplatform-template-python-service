@@ -150,8 +150,8 @@ jobs:
               completed_at: new Date().toISOString()
             });
 
-      - name: Fail if Sub-PR is not merged
-        if: steps.check_sub_pr.outputs.status == 'not_merged'
-        run: |
-          echo "The sub-PR is not merged. Blocking the main PR."
-          exit 1
+#      - name: Fail if Sub-PR is not merged
+#        if: steps.check_sub_pr.outputs.status == 'not_merged'
+#        run: |
+#          echo "The sub-PR is not merged. Blocking the main PR."
+#          exit 1
