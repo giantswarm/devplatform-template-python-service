@@ -4,6 +4,11 @@ on:
   pull_request:
     types: [closed]
 
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
 jobs:
   trigger-root-pr:
     runs-on: ubuntu-latest
@@ -32,19 +37,45 @@ jobs:
 
             console.log(`Detected Root PR #${rootPrNumber}`);
 
-            // Get the root PR details to fetch the branch name
-            // const { data: rootPr } = await github.rest.pulls.get({
-            //   owner: repoOwner,
-            //   repo: repoName,
-            //   pull_number: rootPrNumber,
-            // });
-
-            // Post a comment to trigger the check-sub-pr workflow
-            await github.rest.issues.createComment({
+            // Get the root PR details to fetch the head SHA
+            const { data: rootPr } = await github.rest.pulls.get({
               owner: repoOwner,
               repo: repoName,
-              issue_number: rootPrNumber,
-              body: '/check-sub-pr'
+              pull_number: rootPrNumber,
             });
 
-            console.log(`Comment created for Root PR #${rootPrNumber}`);
+            const rootPrHeadSha = rootPr.head.sha;
+
+            // Find the check run for Sub-PR Merged Status
+            const { data: checkRuns } = await github.rest.checks.listForRef({
+              owner: repoOwner,
+              repo: repoName,
+              ref: rootPrHeadSha,
+              check_name: 'Sub-PR Merged Status'
+            });
+
+            // Exit if no check exists
+            if (checkRuns.check_runs.length === 0) {
+              console.log("No existing check found for the root PR, exiting");
+              return;
+            }
+
+            const checkId = checkRuns.check_runs[0].id;
+            console.log(`Found existing check with ID: ${checkId}`);
+
+            const output = {
+              title: 'Sub-PR Status',
+              summary: 'The Sub-PR has been merged successfully!'
+            };
+
+            await github.rest.checks.update({
+              owner: repoOwner,
+              repo: repoName,
+              check_run_id: checkId,
+              status: 'completed',
+              conclusion: 'success',
+              output: output,
+              completed_at: new Date().toISOString()
+            });
+
+            console.log(`Check updated for Root PR #${rootPrNumber}`);
