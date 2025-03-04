@@ -30,9 +30,6 @@ jobs:
         shell: bash
 
       - name: Create Check Run
-        if: >-
-          github.event_name != 'issue_comment' || 
-          (github.event_name == 'issue_comment' && github.event.comment.body == '/check-sub-pr')
         id: create_check
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
         with:
@@ -51,12 +48,10 @@ jobs:
               started_at: new Date().toISOString()
             });
 
-            return { check_run_id: check.id };
+            core.setOutput('check_run_id', check.id);
+            return check.id;
 
       - name: Check for Sub-PR Status
-        if: >-
-          github.event_name != 'issue_comment' || 
-          (github.event_name == 'issue_comment' && github.event.comment.body == '/check-sub-pr')
         id: check_sub_pr
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
         with:
@@ -78,6 +73,7 @@ jobs:
             const noChangeComment = comments.data.find(comment => noChangeCommentPattern.test(comment.body));
             if (noChangeComment) {
               console.log("No sub-PR is created for this PR, skipping the check");
+              core.setOutput('status', 'no_changes');
               return 'no_changes';
             }
             const subPrComment = comments.data.find(comment => commentPattern.test(comment.body));
@@ -98,9 +94,11 @@ jobs:
 
               if (subPr.data.merged) {
                 console.log(`Sub-PR #${subPrNumber} is merged.`);
+                core.setOutput('status', 'merged');
                 return 'merged';
               } else {
                 console.log(`Sub-PR #${subPrNumber} is not merged.`);
+                core.setOutput('status', 'not_merged');
                 return 'not_merged';
               }
             } catch (error) {
@@ -109,15 +107,15 @@ jobs:
             }
 
       - name: Update Check Run Status
-        if: >-
-          (github.event_name != 'issue_comment' || 
-          (github.event_name == 'issue_comment' && github.event.comment.body == '/check-sub-pr')) && 
-          steps.create_check.outputs.result != ''
+        id: update_check
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
         with:
           script: |
-            const checkRunId = JSON.parse(steps.create_check.outputs.result).check_run_id;
-            const status = steps.check_sub_pr.outputs.result;
+            const checkRunId = ${{ steps.create_check.outputs.check_run_id }};
+            const status = '${{ steps.check_sub_pr.outputs.status }}';
+
+            console.log(`Check run ID: ${checkRunId}`);
+            console.log(`Status: ${status}`);
 
             let conclusion = 'neutral';
             let output = {};
@@ -152,8 +150,8 @@ jobs:
               completed_at: new Date().toISOString()
             });
 
-#      - name: Fail if Sub-PR is not merged
-#        if: steps.check_sub_pr.outputs.result == 'not_merged'
-#        run: |
-#          echo "The sub-PR is not merged. Blocking the main PR."
-#          exit 1
+      - name: Fail if Sub-PR is not merged
+        if: steps.check_sub_pr.outputs.status == 'not_merged'
+        run: |
+          echo "The sub-PR is not merged. Blocking the main PR."
+          exit 1
