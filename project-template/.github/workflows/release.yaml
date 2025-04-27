@@ -46,7 +46,7 @@ jobs:
       - name: Setup Cosign
         uses: sigstore/cosign-installer@d7d6bc7722e3daa8354c50bcb52f4837da5e9b6a # v3.8.1
       - name: Install oras
-        uses: jaxxstorm/action-install-gh-release@v1.14.0
+        uses: jaxxstorm/action-install-gh-release@v2.1.0
         with:
           repo: oras-project/oras
           cache: enable
