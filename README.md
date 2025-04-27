@@ -1,7 +1,5 @@
 # demo-album-catalog-python
 
-![validation and test result](https://github.com/giantswarm/demo-album-catalog-python/actions/workflows/validate-test.yaml/badge.svg?event=push)
-
 ## Intro
 
 This repo is meant as a template base for a python flask based web service projects, that are deployed to a Kubernetes cluster
